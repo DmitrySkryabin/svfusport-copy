@@ -5,4 +5,4 @@ from django.views.generic.list import ListView
 from django.views.generic import TemplateView
 
 def index(request):
-    return render(request, 'main.html')
+    return render(request, 'index.html')

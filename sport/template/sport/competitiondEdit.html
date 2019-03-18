@@ -1,8 +1,61 @@
-{% block edit %}
-<form action="/CM/competitionedit/" method="post">
-  {% csrf_token %}
-  <input type="text" name="comment" value="comment">
-  <input type="submit" name="submit" value="Отправить">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Спартакиада СВФУ</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'my_js/js_table.js' %}"></script>-->
 
-{% endblock %}
+
+</head>
+<body style=" background: rgb(51,122,183);">
+  {% include 'sport/navbar.html' %}
+  <div class="container">
+    {% block edit %}
+    <div class="container bg-light">
+      <div class="row">
+        <div class="container">
+          {% if not save_error %}
+          <form action="" method="post">
+            {% csrf_token %}
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-9" style=" height: 91vh; overflow-y: scroll;">
+                    <div class="form-group" style="border: 2px solid grey; border-radius: 5px; padding: 10px; margin-top: 15px;" >
+                        <h5>Основные атрибуты соревнования</h5>
+                        {{ form.as_p }}
+                      </div>
+                        <div class="form-group" style="border: 2px solid grey; border-radius: 5px; padding: 10px;" >
+                          <h5>Судья</h5>
+                          {{ form1.as_p}}
+                        </div>
+                        <!--{{ form_person.as_p }}-->
+                  </div>
+                  <div class="col-3" style=" height: 91vh;">
+                    <div class="form-group">
+                      <button type="submit" name="button" value="save" class="btn btn-block btn-dark" style="margin-top: 15px;">Сохранить</button>
+                      {% if not create %}
+                      <button type="submit" name="button" value="copy" class="btn btn-block btn-dark" style="margin-top: 15px;">Копировать</button>
+                      <button type="submit" name="button" value="delete" class="btn btn-block btn-dark" style="margin-top: 15px;">Удалить</button>
+                      {% endif %}
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+          </form>
+          {% endif %}
+          {% if save_error %}
+          <label class="error" style="color: red;">{{ save_error }}</label>
+          {% endif %}
+        </div>
+
+      </div>
+      </div>
+    {% endblock %}
+  </div>
+</body>

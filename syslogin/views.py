@@ -12,7 +12,7 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request,user)
-            return redirect('/')
+            return redirect('sport:competition')
         else:
             args['login_error'] = "Неверный логин или пароль"
             return render_to_response('login.html', args)

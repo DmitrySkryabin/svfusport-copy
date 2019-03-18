@@ -1,24 +1,100 @@
-{% block inner_content %}
-<div class="table-responsive-xl">
-    <table class="table table-hover table-bordered table-sm table-justified" id="tbl_1">
-        <thead class="active thead-light">
-        <tr>
-            <th class="table-warning" style="width: 5%">№</th>
-            <th style="width: 20%">Вид спорта</th>
-            <th style="width: 20%">Дата проведения</th>
-            <th style="width: 20%">Адрес</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in competition %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td><a href="{% url 'sport:competitionedit' item.id %}">{{ item.sport.name }}</a></td>
-            <td>{{ item.date}}</td>
-            <td>{{ item.place.name}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% extends "sport/index.html" %}
+
+{% block competition %}
+{% if user.is_authenticated %}
+<div class="container">
+  <div class="row no-gutters">
+    <div class="col-md-9 bg-dark" style=" height: 91vh; overflow-y: scroll;">
+      <div class="container bg-secondary" style="color: white;">
+        <div class="row">
+          <div class="col-8">
+            {% if search_values %}
+              <h6>{{ search_values }}</h6>
+            {% else %}
+              <h6>Список соревнований</h6>
+            {% endif %}
+          </div>
+          <div class="col-4">
+            {% if search_values %}
+              <a href="{% url 'sport:competition' %}" class="btn-sm btn-primary" style="float: right; text-decoration: none;">Назад</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive-xl">
+          <table class="table table-hover table-bordered table-sm table-justified" id="tbl_1">
+              <thead class="active thead-light">
+              <tr>
+                  <th class="table-warning" style="width: 5%">№</th>
+                  <th style="width: 20%">Вид спорта</th>
+                  <th style="width: 20%">Дата проведения</th>
+                  <th style="width: 20%">Место проведения</th>
+                  <th style="width: 6%"></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in competition %}
+              <tr>
+                  <td style="background: white;">{{ forloop.counter }}</td>
+                  <td style="background: white;"><a href="{% url 'sport:competitionedit' item.id %}">{{ item.sport.name }}</a></td>
+                  <td style="background: white;">{{ item.date}}</td>
+                  <td style="background: white;">{{ item.place.name}}</td>
+                  <td style="background: white;">
+                    <div class="btn-group">
+                      <button type="button" class="btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
+                        Действие
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Удалить</a>
+                        <a class="dropdown-item" href="{% url 'sport:competitionedit' item.id %}">Редактировать</a>
+                      </div>
+                    </div>
+                  </td>
+              </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="col-3 bg-light" style=" height: 91vh;">
+      <div class="container">
+        <form class="" action="" method="GET" style="border: 2px solid grey; border-radius: 5px; margin: 15px 0px; padding: 0px 10px 10px 10px;">
+          <div class="form-group" style="padding-top: 20px;">
+              <label for="Search">Поиск</label>
+              <input class="form-control" name="q" type="text" placeholder="Введите искомое..." aria-label="Search">
+          </div>
+          <div class="form-group">
+              <button type="submit" name="button" class="btn btn-block btn-primary">Поиск</button>
+          </div>
+        </form>
+        <a href="{% url 'sport:competitioncreate' %}" class="btn btn-block btn-primary">Добавить соревнование</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+  <div class="container">
+      <h3>Войдите чтобы видеть список соревнований</h3>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block head %}
+<div class="container">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" href="/">Спартакиада СВФУ</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#my-nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="my-nav" class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <li class="nav-item acive"> <a href="/auth/logout" style="color: white; text-decoration: none;">Выйти ({{ user.username }})</a> </li>
+        {% else %}
+        <li> <a href="/auth/login" style="color: white; text-decoration: none;">Войти</a> </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
 </div>
 {% endblock %}
