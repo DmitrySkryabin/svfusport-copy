@@ -1,10 +1,11 @@
 import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from sport.models import Sport, Period, Team, Place, TeamResult
+from sport.models import Sport, Period, Team, Place, TeamResult, Compitition
 from django.views.generic.list import ListView
 from django.views.generic import TemplateView
+from django.template.context_processors import csrf
 
 
 # Create your views here.
@@ -49,9 +50,21 @@ def table_view(request):
     context = {
         'sports': sports,
         'period': period,
-        'results':results
+        'results':resultsr
     }
-
-
     return render(request, 'sport/competition.html', context)
 
+def competition(request):
+    competition = Compitition.objects.all()
+    return render(request, 'sport/competitiond.html', locals())
+
+def competitionedit(request, competition_id):
+    args={'competition_id':competition_id}
+    args.update(csrf(request))
+    if request.POST:
+        comment = request.POST.get('comment','')
+        Compitition.objects.comment=comment
+        #Compitition.objects.
+        return redirect('/CM/competition/')
+    else:
+        return render(request, 'sport/competitiondEdit.html', args)

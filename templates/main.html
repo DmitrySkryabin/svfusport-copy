@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static "/static/css/bootstrap.css" %} ">
+    <title></title>
+  </head>
+  <body>
+    <section class="top-bar">
+      <section class="top-bar-section">
+        <ul class="right">
+          {% if user.is_authenticated %}
+          <li> <a href="/auth/logout">Выйти ({{ user.username }})</a> </li>
+          {% else %}
+          <li> <a href="/auth/login">Войти</a> </li>
+          {% endif %}
+        </ul>
+      </section>
+    </section>
+    {% block login %}{% endblock %}
+    <h1>MAIN PAGE</h1>
+    <a href="/CM/competition/">GO!</a>
+  </body>
+</html>

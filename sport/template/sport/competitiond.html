@@ -1,0 +1,24 @@
+{% block inner_content %}
+<div class="table-responsive-xl">
+    <table class="table table-hover table-bordered table-sm table-justified" id="tbl_1">
+        <thead class="active thead-light">
+        <tr>
+            <th class="table-warning" style="width: 5%">№</th>
+            <th style="width: 20%">Вид спорта</th>
+            <th style="width: 20%">Дата проведения</th>
+            <th style="width: 20%">Адрес</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in competition %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a href="{% url 'sport:competitionedit' item.id %}">{{ item.sport.name }}</a></td>
+            <td>{{ item.date}}</td>
+            <td>{{ item.place.name}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

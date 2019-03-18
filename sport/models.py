@@ -69,7 +69,7 @@ class Team(models.Model):
 class Jrebiy(models.Model):
     sport = models.ForeignKey(Sport, verbose_name = "Вид Спорта", db_index = True, on_delete = models.CASCADE)
     team = models.ForeignKey(Team, verbose_name = "Команда", db_index = True, on_delete = models.CASCADE)
-    
+
     def vibor(self, team):
         if(team.competition == 1):
 '''
@@ -79,9 +79,10 @@ class Compitition(models.Model):
     date = models.DateField(verbose_name = "Дата соревнования", default=datetime.date.today())
     place = models.ForeignKey(Place, verbose_name = "Место проведения", null = True, blank = True, on_delete = models.CASCADE)
     sport = models.ForeignKey(Sport, verbose_name = "Вид Спорта", db_index = True, on_delete = models.CASCADE)
+    comment = models.CharField(max_length=500, verbose_name= "Коментарий", default="")
 
     def __str__(self):
-        return self.place.name + ' : ' + self.place.address
+        return self.place.name + ' : ' + self.place.address + ' : ' +self.sport.name
 
 
 '''class ResultTable(models.Model):
@@ -159,4 +160,3 @@ class Judge(Person):
         return self.fio
 
 '''База Данных'''
-
