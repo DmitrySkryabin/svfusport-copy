@@ -81,13 +81,12 @@ def competitionedit(request, competition_id):
         print(form1)
         args={}
         if request.POST['button']=='save':
-            if form.is_valid() and form1.is_valid():
+            if form.is_valid():
                 try:
                     form.save()
-                    form1.save()
-                    for item in CompetitionJudge.objects.all():
-                        if item.id == judge:
-                            item.compitition__id = competition_id
+                    form1.instance.compitition = form.instance
+                    if form1.is_valid():
+                        form1.save()
                 except Exception as e:
                     args['save_error']=str(e)
                     return  render(request, 'sport/competitiondEdit.html', args)

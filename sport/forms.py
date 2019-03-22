@@ -29,7 +29,7 @@ class CompetitionForm(forms.ModelForm):
         ]
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['date'].widget.attrs.update({'type': 'date', 'class': 'form-control kostyl', 'id':"date", 'name':"date", 'placeholder':"Дата"})
+        self.fields['date'].widget.attrs.update({'type': 'date', 'class': 'form-control', 'id':"date", 'name':"date", 'placeholder':"Дата"})
         self.fields['place'].widget.attrs.update({'class': 'form-control'})
         self.fields['sport'].widget.attrs.update({'class': 'form-control'})
 
@@ -38,9 +38,10 @@ class JudgeForm(forms.ModelForm):
         model = CompetitionJudge
         fields =[
             'judge',
-            'judge_position',
-            'compitition'
+            'judge_position'
+            #'compitition'
         ]
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
