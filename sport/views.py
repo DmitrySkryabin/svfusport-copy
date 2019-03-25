@@ -78,7 +78,6 @@ def competitionedit(request, competition_id):
     if request.method == 'POST':
         form = CompetitionForm(request.POST, instance=competition)
         form1 = JudgeForm(request.POST, instance = judge)
-        print(form1)
         args={}
         if request.POST['button']=='save':
             if form.is_valid():
@@ -94,11 +93,6 @@ def competitionedit(request, competition_id):
         if request.POST['button']=='delete':
             Compitition.objects.filter(id=competition_id).delete()
             return redirect("sport:competition")
-        if request.POST['button']=='copy':
-            return render(request, 'sport/competitiondEdit.html', {
-                'form': CompetitionForm(instance=competition),
-                'form1': JudgeForm(instance = judge)
-                })
     return render(request, 'sport/competitiondEdit.html', {
         'form': CompetitionForm(instance = competition),
         'form1': JudgeForm(instance = judge)
@@ -109,9 +103,13 @@ def competitioncreate(request):
     args['create'] = 'true'
     if request.method == 'POST':
         form = CompetitionForm(request.POST)
+        form1 = JudgeForm(request.POST)
         if form.is_valid():
             try:
                 form.save()
+                form1.instance.compitition = form.instance
+                if form1.is_valid():
+                    form1.save()
             except:
                 args['save_error']=str(e)
                 return  render(request, 'sport/competitiondEdit.html', args)
